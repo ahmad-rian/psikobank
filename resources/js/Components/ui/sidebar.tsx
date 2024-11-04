@@ -1,4 +1,3 @@
-// sidebar.tsx
 import * as React from "react";
 import { Link, router, usePage } from "@inertiajs/react";
 import { cn } from "@/lib/utils";

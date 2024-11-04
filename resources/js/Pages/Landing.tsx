@@ -1,21 +1,15 @@
 // resources/js/Pages/Landing.tsx
 import * as React from "react";
-import { Link, usePage } from "@inertiajs/react";
+import { Link } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import Navbar from "@/Components/Navbar";
 import { User } from "@/types";
 
 interface Props {
@@ -28,45 +22,10 @@ export default function Landing({ auth }: Props) {
   const user = auth.user;
 
   return (
+    
     <div className="min-h-screen bg-background">
       {/* Navbar */}
-      <nav className="border-b">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center">
-              <span className="text-2xl font-bold">PSIKOBANK</span>
-            </div>
-            <div className="flex items-center space-x-4">
-              {user ? (
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost">{user.name}</Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem>
-                      <Link href={route('profile.edit')}>Profile</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Link href={route('logout')} method="post" as="button">
-                        Logout
-                      </Link>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              ) : (
-                <>
-                  <Link href={route('login')}>
-                    <Button variant="ghost">Login</Button>
-                  </Link>
-                  <Link href={route('register')}>
-                    <Button>Register</Button>
-                  </Link>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
-      </nav>
+      <Navbar user={user} />
 
       {/* Hero Section */}
       <section className="py-20">
@@ -79,9 +38,13 @@ export default function Landing({ auth }: Props) {
               Your trusted platform for psychological assessments and management.
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
-              {!user && (
+              {!user ? (
                 <Link href={route('register')}>
                   <Button size="lg">Get Started</Button>
+                </Link>
+              ) : (
+                <Link href={route('dashboard')}>
+                  <Button size="lg">Go to Dashboard</Button>
                 </Link>
               )}
               <Link href="#features">
