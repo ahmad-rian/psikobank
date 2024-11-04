@@ -225,7 +225,7 @@ export default function Landing({ auth }: { auth: { user: User | null } }) {
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ duration: 0.8, type: "spring" }}
                 >
-                  Raih Mimpimu dengan PSIKOBANK
+                  Raih Mimpimu Bersama PSIKOBANK
                 </motion.h1>
                 <motion.p 
                   className="mt-6 text-xl leading-8 text-muted-foreground max-w-2xl mx-auto"
