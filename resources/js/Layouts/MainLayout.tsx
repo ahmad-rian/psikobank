@@ -1,42 +1,40 @@
-import * as React from "react";
-import { useState, useEffect } from "react";
-import { Sidebar } from "@/components/ui/sidebar";
+import * as React from "react"
+import { useState, useEffect } from "react"
+import { Sidebar } from "@/components/ui/sidebar"
 import {
   Sheet,
   SheetContent,
   SheetTrigger,
-} from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
-import { Menu, ChevronLeft } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { ThemeToggle } from "@/components/ThemeToggle";
-import { Head } from "@inertiajs/react"; // Pastikan untuk mengimpor Head
+} from "@/components/ui/sheet"
+import { Button } from "@/components/ui/button"
+import { Menu, Bell } from "lucide-react"
+import { cn } from "@/lib/utils"
+import { ThemeToggle } from "@/components/ThemeToggle"
+import { Head } from "@inertiajs/react"
 
 interface MainLayoutProps {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 export default function MainLayout({ children }: MainLayoutProps) {
-  const [isCollapsed, setIsCollapsed] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false)
+  const [open, setOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 1024) {
-        setIsCollapsed(true);
-      }
-    };
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 0)
+    }
     
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   return (
     <>
-      <Head title="PSIKOBANK" /> 
-      <div className="relative min-h-screen flex bg-muted/40">
-        {/* Desktop Sidebar with Toggle Button Wrapper */}
+      <Head title="PSIKOBANK" />
+      <div className="relative flex min-h-screen bg-background">
+        {/* Desktop Sidebar */}
         <div
           className={cn(
             "hidden md:block fixed inset-y-0 z-30",
@@ -44,37 +42,11 @@ export default function MainLayout({ children }: MainLayoutProps) {
             "transition-all duration-300 ease-in-out"
           )}
         >
-          {/* Toggle Button Container */}
-          <div 
-            className={cn(
-              "absolute z-50",
-              "transition-all duration-300 ease-in-out",
-              isCollapsed ? "right-0 translate-x-1/2" : "-right-3"
-            )}
-            style={{ top: "1.5rem" }}
-          >
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => setIsCollapsed(!isCollapsed)}
-              className={cn(
-                "h-6 w-6 rounded-full",
-                "bg-background border shadow-sm hover:bg-accent",
-                "transition-all duration-300 ease-in-out",
-                isCollapsed && "-rotate-180"
-              )}
-            >
-              <ChevronLeft className="h-4 w-4" />
-            </Button>
-          </div>
-
-          {/* Sidebar Container */}
-          <div className="h-full">
-            <Sidebar
-              className="h-full rounded-r-xl border-r shadow-lg overflow-hidden"
-              isCollapsed={isCollapsed}
-            />
-          </div>
+          <Sidebar
+            className="h-full border-r transition-all duration-300"
+            isCollapsed={isCollapsed}
+            onCollapsedChange={setIsCollapsed}
+          />
         </div>
 
         {/* Mobile Sheet */}
@@ -83,7 +55,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
             <Button 
               variant="ghost" 
               size="icon" 
-              className="fixed top-4 left-4 z-40 md:hidden"
+              className="fixed top-4 left-4 z-40 md:hidden hover:bg-accent"
             >
               <Menu className="h-5 w-5" />
               <span className="sr-only">Toggle menu</span>
@@ -97,24 +69,46 @@ export default function MainLayout({ children }: MainLayoutProps) {
           </SheetContent>
         </Sheet>
 
-        {/* Theme Toggle */}
-        <div className="fixed top-4 right-4 z-50">
-          <ThemeToggle />
-        </div>
-
         {/* Main Content */}
-        <main
-          className={cn(
-            "flex-1 min-h-screen",
-            isCollapsed ? "md:pl-16" : "md:pl-64",
-            "transition-all duration-300 ease-in-out"
-          )}
-        >
-          <div className="container max-w-6xl p-6 pt-16 md:pt-8">
+        <div className={cn(
+          "flex-1",
+          isCollapsed ? "md:pl-16" : "md:pl-64",
+          "transition-all duration-300"
+        )}>
+          {/* Top Bar */}
+          <header className={cn(
+            "sticky top-0 z-20 border-b",
+            "bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60",
+            scrolled && "shadow-sm"
+          )}>
+            <div className="container flex h-16 items-center gap-4 px-4">
+              <div className="md:hidden">
+                <Button 
+                  variant="ghost" 
+                  size="icon"
+                  className="mr-2"
+                  onClick={() => setOpen(true)}
+                >
+                  <Menu className="h-5 w-5" />
+                  <span className="sr-only">Toggle menu</span>
+                </Button>
+              </div>
+              <div className="flex flex-1 items-center justify-end gap-4">
+                <Button variant="ghost" size="icon" className="relative">
+                  <Bell className="h-5 w-5" />
+                  <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-primary" />
+                </Button>
+                <ThemeToggle />
+              </div>
+            </div>
+          </header>
+
+          {/* Page Content */}
+          <main className="container px-4 py-6">
             {children}
-          </div>
-        </main>
+          </main>
+        </div>
       </div>
     </>
-  );
+  )
 }
