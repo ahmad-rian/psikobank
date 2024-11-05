@@ -28,7 +28,7 @@ export default function Navbar({ user }: NavbarProps) {
           <ThemeToggle />
           {user ? (
             <div className="flex items-center gap-4">
-              <Link href={route('home')}>
+              <Link href={route(user.role === 'admin' || user.role === 'super_admin' ? 'dashboard' : 'home')}>
                 <Button variant="ghost">Dashboard</Button>
               </Link>
               <DropdownMenu>
@@ -65,8 +65,6 @@ export default function Navbar({ user }: NavbarProps) {
                       <UserCircle className="mr-2 h-4 w-4" />
                       Profile
                     </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem asChild>
