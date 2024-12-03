@@ -338,26 +338,34 @@ const Achievements = () => {
   );
 };
 
+interface StudyPath {
+  title: string;
+  duration: string;
+  modules: number;
+  progress: number;
+}
+
+
 // Study path card component
-const StudyPathCard = ({ path }) => (
+const StudyPathCard = ({ path }: { path: StudyPath }) => (
   <Card className="hover:shadow-lg transition-shadow">
     <CardHeader>
-      <CardTitle className="text-lg">{path.title}</CardTitle>
+      <CardTitle className="text-lg">{path?.title || "Judul Tidak Tersedia"}</CardTitle>
       <CardDescription>
         <div className="flex items-center gap-2">
           <Clock className="w-4 h-4" />
-          {path.duration}
+          {path?.duration || "Durasi Tidak Diketahui"}
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 mt-2">
           <BookOpen className="w-4 h-4" />
-          {path.modules} Modul
+          {path?.modules || 0} Modul
         </div>
       </CardDescription>
     </CardHeader>
     <CardContent>
-      <Progress value={path.progress} className="h-2" />
+      <Progress value={path?.progress || 0} className="h-2" />
       <p className="text-sm text-muted-foreground mt-2">
-        0/{path.modules} modul selesai
+        0/{path?.modules || 0} modul selesai
       </p>
     </CardContent>
     <CardFooter>
@@ -366,26 +374,34 @@ const StudyPathCard = ({ path }) => (
   </Card>
 );
 
+interface Testimonial {
+  name: string;
+  role: string;
+  image: string;
+  testimony: string;
+  rating: number;
+}
+
 // Testimonial card component
-const TestimonialCard = ({ story }) => (
+const TestimonialCard = ({ story }: { story: Testimonial }) => (
   <Card className="hover:shadow-lg transition-shadow">
     <CardHeader>
       <div className="flex items-center gap-4">
         <img
-          src={story.image}
-          alt={story.name}
+          src={story?.image || "/placeholder-image.jpg"}
+          alt={story?.name || "Anonymous"}
           className="rounded-full w-12 h-12"
         />
         <div>
-          <CardTitle className="text-lg">{story.name}</CardTitle>
-          <CardDescription>{story.role}</CardDescription>
+          <CardTitle className="text-lg">{story?.name || "Anonymous"}</CardTitle>
+          <CardDescription>{story?.role || "Pekerjaan Tidak Diketahui"}</CardDescription>
         </div>
       </div>
     </CardHeader>
     <CardContent>
-      <p className="text-muted-foreground">{story.testimony}</p>
+      <p className="text-muted-foreground">{story?.testimony || "Testimoni tidak tersedia."}</p>
       <div className="flex gap-1 mt-4">
-        {Array.from({ length: story.rating }).map((_, i) => (
+        {Array.from({ length: story?.rating || 0 }).map((_, i) => (
           <Star key={i} className="w-4 h-4 fill-primary text-primary" />
         ))}
       </div>

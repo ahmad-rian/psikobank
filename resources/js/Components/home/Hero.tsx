@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "@inertiajs/react";
 import { Button } from "@/Components/ui/button";
 import { Badge } from "@/Components/ui/badge";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/Components/ui/dialog";
+import * as Dialog from "@radix-ui/react-dialog"; // Menggunakan Radix untuk dialog
 import { Rocket, Video, BarChart } from "lucide-react";
 import type { User } from "@/types";
 
@@ -50,36 +50,48 @@ export default function Hero({ user }: HeroProps) {
             transition={{ delay: 0.5, duration: 0.8 }}
           >
             {!user ? (
-              <Link href={route('register')}>
+              <Link href={route("register")}>
                 <Button size="lg" className="bg-primary hover:bg-primary/90">
                   <Rocket className="mr-2 h-5 w-5" />
                   Mulai Trial Gratis
                 </Button>
               </Link>
             ) : (
-              <Link href={route('dashboard')}>
+              <Link href={route("dashboard")}>
                 <Button size="lg" className="bg-primary hover:bg-primary/90">
                   <BarChart className="mr-2 h-5 w-5" />
                   Lihat Dashboard
                 </Button>
               </Link>
             )}
-            <Dialog>
-              <DialogTrigger asChild>
+            <Dialog.Root>
+              <Dialog.Trigger asChild>
                 <Button variant="outline" size="lg">
                   <Video className="mr-2 h-5 w-5" />
                   Lihat Demo
                 </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Demo PSIKOBANK</DialogTitle>
-                </DialogHeader>
-                <div className="aspect-video bg-muted rounded-lg">
-                  {/* Video content placeholder */}
-                </div>
-              </DialogContent>
-            </Dialog>
+              </Dialog.Trigger>
+              <Dialog.Portal>
+                <Dialog.Overlay className="fixed inset-0 bg-black/50" />
+                <Dialog.Content className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
+                  <Dialog.Title className="text-lg font-bold mb-4">
+                    Demo PSIKOBANK
+                  </Dialog.Title>
+                  <div className="aspect-video bg-muted rounded-lg">
+                    {/* Video content placeholder */}
+                  </div>
+                  <Dialog.Close asChild>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="absolute top-2 right-2"
+                    >
+                      ✕
+                    </Button>
+                  </Dialog.Close>
+                </Dialog.Content>
+              </Dialog.Portal>
+            </Dialog.Root>
           </motion.div>
         </motion.div>
       </div>

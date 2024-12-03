@@ -3,6 +3,14 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/Com
 import { Star } from "lucide-react";
 import { successStories } from "@/data";
 
+type SuccessStory = {
+  name: string;
+  role: string;
+  testimony: string;
+  rating: number;
+  image: string;
+};
+
 export default function Testimonials() {
   return (
     <section className="py-20">
@@ -20,7 +28,7 @@ export default function Testimonials() {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {successStories.map((story, index) => (
+          {successStories.map((story: SuccessStory, index: number) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 20 }}

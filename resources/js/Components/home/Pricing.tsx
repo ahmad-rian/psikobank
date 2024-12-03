@@ -1,9 +1,26 @@
 import { motion } from "framer-motion";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/Components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from "@/Components/ui/card";
 import { Button } from "@/Components/ui/button";
 import { Badge } from "@/Components/ui/badge";
 import { CheckCircle } from "lucide-react";
 import { pricingPlans } from "@/data";
+
+interface PricingPlan {
+  name: string;
+  tag: string;
+  description: string;
+  price: string;
+  duration: string;
+  features: string[];
+  featured: boolean;
+}
 
 export default function Pricing() {
   return (
@@ -22,14 +39,14 @@ export default function Pricing() {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          {pricingPlans.map((plan, index) => (
+          {pricingPlans.map((plan: PricingPlan, index: number) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`relative ${plan.featured ? 'md:-mt-8' : ''}`}
+              className={`relative ${plan.featured ? "md:-mt-8" : ""}`}
             >
               {plan.featured && (
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
@@ -38,7 +55,11 @@ export default function Pricing() {
                   </Badge>
                 </div>
               )}
-              <Card className={`h-full ${plan.featured ? 'border-primary shadow-lg scale-105' : ''}`}>
+              <Card
+                className={`h-full ${
+                  plan.featured ? "border-primary shadow-lg scale-105" : ""
+                }`}
+              >
                 <CardHeader>
                   <Badge variant="outline" className="w-fit mb-4">
                     {plan.tag}
@@ -50,8 +71,12 @@ export default function Pricing() {
                   <div className="mt-4 flex items-baseline">
                     {plan.price !== "Custom" ? (
                       <>
-                        <span className="text-4xl font-bold">Rp {plan.price}</span>
-                        <span className="text-muted-foreground ml-2">/{plan.duration}</span>
+                        <span className="text-4xl font-bold">
+                          Rp {plan.price}
+                        </span>
+                        <span className="text-muted-foreground ml-2">
+                          /{plan.duration}
+                        </span>
                       </>
                     ) : (
                       <span className="text-4xl font-bold">Custom</span>
@@ -60,7 +85,7 @@ export default function Pricing() {
                 </CardHeader>
                 <CardContent>
                   <ul className="space-y-3">
-                    {plan.features.map((feature, i) => (
+                    {plan.features.map((feature: string, i: number) => (
                       <motion.li
                         key={i}
                         className="flex items-center gap-2"
@@ -81,8 +106,8 @@ export default function Pricing() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    <Button 
-                      className="w-full" 
+                    <Button
+                      className="w-full"
                       variant={plan.featured ? "default" : "outline"}
                       size="lg"
                     >

@@ -2,8 +2,25 @@ import { motion } from "framer-motion";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/Components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/Components/ui/tabs";
 import { CheckCircle } from "lucide-react";
-import { features } from "@/data";
 import * as LucideIcons from "lucide-react";
+
+// Tipe data untuk fitur
+type Feature = {
+  icon: string;
+  title: string;
+  description: string;
+  benefits: string[];
+};
+
+// Contoh data fitur
+const features: Feature[] = [
+  {
+    icon: "CheckCircle",
+    title: "Feature Title",
+    description: "Feature description",
+    benefits: ["Benefit 1", "Benefit 2"],
+  },
+];
 
 export default function Features() {
   return (
@@ -31,9 +48,9 @@ export default function Features() {
 
           <TabsContent value="all">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {features.map((feature, index) => {
-                const Icon = LucideIcons[feature.icon as keyof typeof LucideIcons];
-                
+              {features.map((feature: Feature, index: number) => {
+                const Icon = LucideIcons[feature.icon as keyof typeof LucideIcons] as React.ElementType;
+
                 return (
                   <motion.div
                     key={index}
@@ -56,7 +73,7 @@ export default function Features() {
                       </CardHeader>
                       <CardContent>
                         <ul className="space-y-2">
-                          {feature.benefits.map((benefit, i) => (
+                          {feature.benefits.map((benefit: string, i: number) => (
                             <motion.li
                               key={i}
                               className="flex items-center gap-2"
@@ -67,4 +84,18 @@ export default function Features() {
                             >
                               <CheckCircle className="w-4 h-4 text-primary" />
                               <span>{benefit}</span>
-                            </motion.
+                            </motion.li>
+                          ))}
+                        </ul>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </TabsContent>
+        </Tabs>
+      </div>
+    </section>
+  );
+}

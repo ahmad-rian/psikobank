@@ -5,6 +5,13 @@ import { Progress } from "@/Components/ui/progress";
 import { Clock, BookOpen } from "lucide-react";
 import { studyPaths } from "@/data";
 
+type StudyPath = {
+  title: string;
+  duration: string;
+  modules: number;
+  progress: number;
+};
+
 export default function StudyPaths() {
   return (
     <section className="py-20 bg-muted/30">
@@ -22,7 +29,7 @@ export default function StudyPaths() {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {studyPaths.map((path, index) => (
+          {studyPaths.map((path: StudyPath, index: number) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 20 }}

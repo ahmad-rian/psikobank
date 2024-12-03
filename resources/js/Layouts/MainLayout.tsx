@@ -1,10 +1,10 @@
 import * as React from "react"
 import { useState, useEffect } from "react"
-import { Sidebar } from "@/components/ui/sidebar"
-import { Button } from "@/components/ui/button"
+import { Sidebar } from "@/Components/ui/sidebar"
+import { Button } from "@/Components/ui/button"
 import { Bell } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { ThemeToggle } from "@/components/ThemeToggle"
+import { ThemeToggle } from "@/Components/ThemeToggle"
 import { Head } from "@inertiajs/react"
 
 interface MainLayoutProps {
